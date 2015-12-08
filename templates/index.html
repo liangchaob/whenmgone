@@ -1,6 +1,7 @@
 {% extends "bootstrap/base.html" %}
 {% block title %}whenmgone{% endblock %}
 {% block navbar %}
+      <link rel="stylesheet" type="text/css" href="http://simditor.tower.im/assets/styles/simditor.css" />
       <!-- Static navbar -->
       <nav class="navbar navbar-default">
         <div class="container-fluid">
@@ -65,8 +66,21 @@
           </div> 
           <div class="form-group">
             {{ form.heatbeatdelay.label }} {{ form.heatbeatdelay(class="form-control") }}
-          </div>        
+          </div>
           <button type="submit" class="btn btn-default">Submit</button>
         </form>
     </div>
+    <script type="text/javascript" src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+    <script type="text/javascript" src="http://simditor.tower.im/assets/scripts/module.js"></script>
+    <script type="text/javascript" src="http://simditor.tower.im/assets/scripts/hotkeys.js"></script>
+    <script type="text/javascript" src="http://simditor.tower.im/assets/scripts/uploader.js"></script>
+    <script type="text/javascript" src="http://simditor.tower.im/assets/scripts/simditor.js"></script>
+    <script type="text/javascript" src="http://www.bootcss.com/p/bootstrap-wysiwyg/bootstrap-wysiwyg.js"></script>
+    
+    <script type="text/javascript">
+      var editor = new Simditor({
+        textarea: $('#note')
+        //optional options
+      });
+    </script>
 {% endblock %}

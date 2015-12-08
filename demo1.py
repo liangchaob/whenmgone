@@ -99,7 +99,7 @@ def index():
     return render_template('index.html', form=form)
 
 # 指定路由
-@app.route('/<name>')
+@app.route('/profile/<name>')
 # 定义响应函数
 def note_content(name):
     # 实例化表单类
