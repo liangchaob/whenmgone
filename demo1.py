@@ -6,9 +6,12 @@
 '''
 # 引入os模块
 import os
-# 引入datatime模块
+# 引入time模块
 import time
 # 引入sys模块，并将默认字符格式转为utf-8
+from datetime import datetime,timedelta
+# 引入datatime模块
+
 import sys
 sys.path.append("./")
 reload(sys)
@@ -59,19 +62,19 @@ class DemoForm(Form):
     phone = TextField('手机', validators = [DataRequired()])
     # 遗书输入框
     content01 = TextAreaField('留言1', validators = [DataRequired()])
-    content02 = TextAreaField('留言2', validators = [DataRequired()])
+    # content02 = TextAreaField('留言2', validators = [DataRequired()])
     # 接收人输入框
     contact01Name = TextField('接收人1姓名', validators = [DataRequired()])
     contact01Mail = TextField('接收人1邮箱', validators = [DataRequired()])
     contact01Phone = TextField('接收人1电话', validators = [DataRequired()])
 
-    contact02Name = TextField('接收人2姓名', validators = [DataRequired()])
-    contact02Mail = TextField('接收人2邮箱', validators = [DataRequired()])
-    contact02Phone = TextField('接收人2电话', validators = [DataRequired()])
+    # contact02Name = TextField('接收人2姓名', validators = [DataRequired()])
+    # contact02Mail = TextField('接收人2邮箱', validators = [DataRequired()])
+    # contact02Phone = TextField('接收人2电话', validators = [DataRequired()])
 
-    contact03Name = TextField('接收人3姓名', validators = [DataRequired()])
-    contact03Mail = TextField('接收人3邮箱', validators = [DataRequired()])
-    contact03Phone = TextField('接收人3电话', validators = [DataRequired()])
+    # contact03Name = TextField('接收人3姓名', validators = [DataRequired()])
+    # contact03Mail = TextField('接收人3邮箱', validators = [DataRequired()])
+    # contact03Phone = TextField('接收人3电话', validators = [DataRequired()])
   
     # 心跳邮箱
     heatbeatmail = TextField('心跳邮箱', validators = [Email()])
@@ -82,6 +85,23 @@ class DemoForm(Form):
     delay_choices = [('1', '1周后'), ('2', '1个月后'), ('3', '3个月后')]
     heatbeatdelay = SelectField('心跳延迟',choices = delay_choices, default = '2')
     # 最后更新时间
+
+
+
+class TimeCompute(heatbeatrate=7,heatbeatdelay=7):
+    """docstring for TimeCompute"""
+    _timenow = datetime.now()
+    def heatbeatUpdate():
+        return time.mktime(_timenow.timetuple())
+    def heatbeatSync():
+        _timesync = _timenow + timedelta(days=heatbeatrate)
+        return _timesync
+    def heatbeatFinal():
+        # _timefinal = _timenow + timedelta(days=heatbeatrate+heatbeatdelay)
+        _timefinal = _timenow + timedelta(days=heatbeatdelay)
+        return _timefinal
+
+        
 
 
 # 用户表单
@@ -97,18 +117,18 @@ def index():
         name = request.form['name']
         phone = request.form['phone']
         content01 = request.form['content01']
-        content02 = request.form['content02']
+        # content02 = request.form['content02']
         contact01Mail = request.form['contact01Mail']
         contact01Phone = request.form['contact01Phone']
         contact01Name = request.form['contact01Name']
 
-        contact02Mail = request.form['contact02Mail']
-        contact02Phone = request.form['contact02Phone']
-        contact02Name = request.form['contact02Name']
+        # contact02Mail = request.form['contact02Mail']
+        # contact02Phone = request.form['contact02Phone']
+        # contact02Name = request.form['contact02Name']
 
-        contact03Mail = request.form['contact03Mail']
-        contact03Phone = request.form['contact03Phone']
-        contact03Name = request.form['contact03Name']
+        # contact03Mail = request.form['contact03Mail']
+        # contact03Phone = request.form['contact03Phone']
+        # contact03Name = request.form['contact03Name']
 
         heatbeatmail = request.form['heatbeatmail']
         heatbeatrate = request.form['heatbeatrate']
@@ -131,28 +151,28 @@ def index():
             'content':content01,
             'link':['content01','content02']
             },
-        'note02':{
-            'content':content02,
-            'link':['content03']
-            },
+        # 'note02':{
+        #     'content':content02,
+        #     'link':['content03']
+        #     },
         'contact01':{
             'mail':contact01Mail,
             'phone':contact01Phone,
             'name':contact01Name
             },
-        'contact02':{
-            'mail':contact02Mail,
-            'phone':contact02Phone,
-            'name':contact02Name
-            },
-        'contact03':{
-            'mail':contact03Mail,
-            'phone':contact03Phone,
-            'name':contact03Name
-            },
+        # 'contact02':{
+        #     'mail':contact02Mail,
+        #     'phone':contact02Phone,
+        #     'name':contact02Name
+        #     },
+        # 'contact03':{
+        #     'mail':contact03Mail,
+        #     'phone':contact03Phone,
+        #     'name':contact03Name
+        #     },
         'heatbeatMail':heatbeatmail,
         'heatbeatRate':heatbeatrate,
-        'heatbeatDelay':heatbeatdelay,
+        'heatbeatDelay':time.mktime(datetime.now().timetuple()),
         'heatbeatUpdate':heatbeatUpdate,
         'heatbeatSync':heatbeatSync,
         'heatbeatFinal':heatbeatFinal,
