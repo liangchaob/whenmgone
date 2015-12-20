@@ -8,10 +8,10 @@
 import os
 # 引入time模块
 import time
-# 引入sys模块，并将默认字符格式转为utf-8
-from datetime import datetime,timedelta
 # 引入datatime模块
+from datetime import datetime,timedelta
 
+# 引入sys模块，并将默认字符格式转为utf-8
 import sys
 sys.path.append("./")
 reload(sys)
@@ -79,28 +79,35 @@ class DemoForm(Form):
     # 心跳邮箱
     heatbeatmail = TextField('心跳邮箱', validators = [Email()])
     # 心跳频率
-    rate_choices = [('1', '每周'), ('2', '每月'), ('3', '每3个月')]
-    heatbeatrate = SelectField('心跳频率',choices = rate_choices, default = '2')
+    rate_choices = [('7', '每周'), ('30', '每月'), ('90', '每3个月')]
+    heatbeatrate = SelectField('心跳频率',choices = rate_choices, default = '30')
     # 心跳延迟
-    delay_choices = [('1', '1周后'), ('2', '1个月后'), ('3', '3个月后')]
-    heatbeatdelay = SelectField('心跳延迟',choices = delay_choices, default = '2')
+    delay_choices = [('7', '1周后'), ('30', '1个月后'), ('90', '3个月后')]
+    heatbeatdelay = SelectField('心跳延迟',choices = delay_choices, default = '30')
     # 最后更新时间
 
 
 
-class TimeCompute(heatbeatrate=7,heatbeatdelay=7):
-    """docstring for TimeCompute"""
-    _timenow = datetime.now()
-    def heatbeatUpdate():
-        return time.mktime(_timenow.timetuple())
-    def heatbeatSync():
-        _timesync = _timenow + timedelta(days=heatbeatrate)
-        return _timesync
-    def heatbeatFinal():
-        # _timefinal = _timenow + timedelta(days=heatbeatrate+heatbeatdelay)
-        _timefinal = _timenow + timedelta(days=heatbeatdelay)
-        return _timefinal
-
+# 设置时间计算模块儿
+class TimeCompute(object):
+    """用于计算遗书服务更新时间"""
+    # 初始化模块儿参数心跳频率和时间时间
+    def __init__(self, heatbeatrate,heatbeatdelay):
+        self.heatbeatrate = heatbeatrate
+        self.heatbeatdelay = heatbeatdelay
+        self.timenow = datetime.now()
+    # 最后更新时间戳
+    def heatbeatUpdate(self):
+        return time.mktime(self.timenow.timetuple())
+    # 下次同步时间戳
+    def heatbeatSync(self):
+        _timesync = self.timenow + timedelta(days=self.heatbeatrate)
+        return time.mktime(_timesync.timetuple())
+    # 最晚延时时间戳
+    def heatbeatFinal(self):
+        _timefinal = self.timenow + timedelta(days=self.heatbeatrate+self.heatbeatdelay)
+        # _timefinal = _timenow + timedelta(days=heatbeatdelay)
+        return time.mktime(_timefinal.timetuple())
         
 
 
@@ -136,10 +143,10 @@ def index():
         # heatbeatUpdate = str(time.strftime("%Y-%m-%d %H:%M:%S"))
         # heatbeatSync = str(time.strftime("%Y-%m-%d %H:%M:%S")) + 'heatbeatrate'
         # heatbeatFinal = str(time.strftime("%Y-%m-%d %H:%M:%S")) + 'heatbeatrate' + 'heatbeatdelay'
+        heatbeatrate=int(heatbeatrate)
+        heatbeatdelay=int(heatbeatdelay)
 
-        heatbeatUpdate = 10
-        heatbeatSync = 25
-        heatbeatFinal = 35
+        T = TimeCompute(heatbeatrate,heatbeatdelay)
 
         # 设置插入数据库的内容
         demo_data = {
@@ -149,7 +156,7 @@ def index():
         'phone':phone, 
         'note01':{
             'content':content01,
-            'link':['content01','content02']
+            'link':['content01']
             },
         # 'note02':{
         #     'content':content02,
@@ -172,10 +179,10 @@ def index():
         #     },
         'heatbeatMail':heatbeatmail,
         'heatbeatRate':heatbeatrate,
-        'heatbeatDelay':time.mktime(datetime.now().timetuple()),
-        'heatbeatUpdate':heatbeatUpdate,
-        'heatbeatSync':heatbeatSync,
-        'heatbeatFinal':heatbeatFinal,
+        'heatbeatDelay':heatbeatdelay,
+        'heatbeatUpdate':T.heatbeatUpdate(),
+        'heatbeatSync':T.heatbeatSync(),
+        'heatbeatFinal':T.heatbeatFinal(),
         'deathConfirm':False,
         'notesendConfirm':False,
         'serviceState':True
@@ -194,7 +201,7 @@ def note_content(name):
     # 实例化表单类
     form = DemoForm()
     # 找到名字对应的内容
-    content = collection.find_one({'name':name}).get('content02')
+    content = collection.find_one({'userID':name}).get('note01.content')
     # 渲染index.html
     return render_template('content.html', note = content)
 
