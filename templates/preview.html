@@ -1,0 +1,81 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}whenmgone{% endblock %}
+
+{% block head %}
+{{ super() }}
+<!-- ico -->
+<link rel="shortcut icon" href="{{ url_for('static',filename = 'ghost_ico.ico') }}" type="image/x-icon">
+<!-- cdn css -->
+<link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
+<!-- self css -->
+<link rel="stylesheet" href="{{ url_for('static', filename = 'contact.css') }}">
+
+{% endblock %}
+
+{% block content %}
+<!-- navbar -->
+<nav class="navbar container">
+    <h1>whenmgone</h1>
+</nav>
+
+<!-- register -->
+<div class="container main_bd">
+  <div class="stepbystep col-md-12">
+    <ul class="nav navbar-nav col-md-12">
+      <li class="step col-md-3">
+        <a href="/contact">联系人</a>
+      </li>
+      <li class="step col-md-3">
+<!--         <div id="triangle-right-active"></div> -->
+        <a href="/lastwill">遗嘱</a>
+      </li>
+      <li class="step col-md-3">
+        <!-- <div id="triangle-right"></div> -->
+        <a href="/heatbeat">心跳</a>
+      </li>
+      <li class="step col-md-3 active">
+        <!-- <div id="triangle-right"></div> -->
+        <a href="/preview">预览</a>
+      </li>
+
+    </ul>
+  </div>
+
+
+<!-- 心跳设置页 -->
+  <div class="contacts-add col-md-4">
+
+  <h2>遗嘱</h2>
+  <p>遗嘱内容</p>
+
+
+  </div>
+
+<div class="contacts-list col-md-4">
+</div>
+
+<div class="contacts-help col-md-4">
+  <div class="tip">
+    <h6>Tip:</h6>
+    <p>这是关于预览的提示信息！</p>
+      <p>
+        <button type="button" class="btn btn-default">邮箱测试</button>
+        <!-- <button type="button" class="btn btn-default">（默认尺寸）Default button</button> -->
+      </p>
+  </div>
+</div>
+</div>
+
+
+<!-- footer -->
+<footer class="footer">
+    <div class="container">
+    <hr>
+        <p>Copyright © whenmgone 2015</p>
+    </div>
+</footer>
+
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.js"></script>
+
+{% endblock %}

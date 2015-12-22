@@ -1,0 +1,26 @@
+body{
+    background-color: #333;
+}
+.navbar h1{
+    color: white;
+}
+
+.index-img{
+    max-width: 600px;
+    max-height: 150px;    
+}
+
+.help{
+    background-color: #eee;
+
+}
+.help img{
+    max-width: 300px;
+    max-height: 250px;
+}
+
+
+footer{
+    text-align: center;
+    color: #fff;
+}

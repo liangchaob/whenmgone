@@ -1,0 +1,103 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}whenmgone{% endblock %}
+
+{% block head %}
+{{ super() }}
+<!-- ico -->
+<link rel="shortcut icon" href="{{ url_for('static',filename = 'ghost_ico.ico') }}" type="image/x-icon">
+<!-- cdn css -->
+<link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
+<!-- self css -->
+<link rel="stylesheet" href="{{ url_for('static', filename = 'contact.css') }}">
+
+{% endblock %}
+
+{% block content %}
+<!-- navbar -->
+<nav class="navbar container">
+    <h1>whenmgone</h1>
+</nav>
+
+<!-- register -->
+<div class="container main_bd">
+  <div class="stepbystep col-md-12">
+    <ul class="nav navbar-nav col-md-12">
+      <li class="step col-md-3 active">
+        <a href="/contact">联系人</a>
+      </li>
+      <li class="step col-md-3">
+<!--         <div id="triangle-right-active"></div> -->
+        <a href="/lastwill">遗嘱</a>
+      </li>
+      <li class="step col-md-3">
+        <!-- <div id="triangle-right"></div> -->
+        <a href="/heatbeat">心跳</a>
+      </li>
+      <li class="step col-md-3">
+        <!-- <div id="triangle-right"></div> -->
+        <a href="/preview">预览</a>
+      </li>
+
+    </ul>
+  </div>
+
+
+<!-- 联系人添加页 -->
+  <div class="contacts-add col-md-4">
+  <form class="form-horizontal">
+    <h3>添加联系人</h3>
+    <br>
+
+    <div class="form-group">
+      <!-- <label for="inputEmail3" class="col-sm-4 control-label">姓名</label> -->
+      <div class="col-sm-8">
+        <input type="email" class="form-control" id="inputEmail3" placeholder="联系人姓名">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <!-- <label for="inputEmail3" class="col-sm-4 control-label">手机号</label> -->
+      <div class="col-sm-8">
+        <input type="email" class="form-control" id="inputEmail3" placeholder="联系人手机号码">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <!-- <label for="inputEmail3" class="col-sm-4 control-label">邮箱</label> -->
+      <div class="col-sm-8">
+        <input type="email" class="form-control" id="inputEmail3" placeholder="联系人邮箱">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-8">
+        <button type="submit" class="btn btn-default">添加</button>
+      </div>
+    </div>
+  </form>
+  </div>
+
+<div class="contacts-list col-md-4">
+</div>
+
+<div class="contacts-help col-md-4">
+  <div class="tip">
+    <h6>Tip:</h6>
+    <p>这是关于联系人的提示信息！</p>
+  </div>
+</div>
+</div>
+
+
+<!-- footer -->
+<footer class="footer">
+    <div class="container">
+    <hr>
+        <p>Copyright © whenmgone 2015</p>
+    </div>
+</footer>
+
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.js"></script>
+
+{% endblock %}

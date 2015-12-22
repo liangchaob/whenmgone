@@ -1,0 +1,155 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}whenmgone{% endblock %}
+
+{% block head %}
+{{ super() }}
+<!-- ico -->
+<link rel="shortcut icon" href="{{ url_for('static',filename = 'ghost_ico.ico') }}" type="image/x-icon">
+<!-- cdn css -->
+<link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
+<!-- self css -->
+<link rel="stylesheet" href="{{ url_for('static', filename = 'contact.css') }}">
+
+{% endblock %}
+
+{% block content %}
+<!-- navbar -->
+<nav class="navbar container">
+    <h1>whenmgone</h1>
+</nav>
+
+<!-- register -->
+<div class="container main_bd">
+  <div class="stepbystep col-md-12">
+    <ul class="nav navbar-nav col-md-12">
+      <li class="step col-md-3">
+        <a href="/contact">联系人</a>
+      </li>
+      <li class="step col-md-3">
+<!--         <div id="triangle-right-active"></div> -->
+        <a href="/lastwill">遗嘱</a>
+      </li>
+      <li class="step col-md-3 active">
+        <!-- <div id="triangle-right"></div> -->
+        <a href="/heatbeat">心跳</a>
+      </li>
+      <li class="step col-md-3">
+        <!-- <div id="triangle-right"></div> -->
+        <a href="/preview">预览</a>
+      </li>
+    </ul>
+  </div>
+
+
+<!-- 心跳设置页 -->
+  <div class="contacts-add col-md-4">
+  <form class="form-horizontal">
+    <h3>心跳设置</h3>
+    <br>
+
+    <div class="form-group">
+      <label for="heatbeat-function" class="col-sm-4 control-label">心跳方式</label>
+      <div class="col-sm-8">
+
+        <div class="radio">
+          <label>
+            <input type="radio" name="heartbeat-function" id="heartbeat-function1" value="option1" checked>
+            邮箱心跳
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="heartbeat-function" id="heartbeat-function2" value="option2">
+            短信心跳
+          </label>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label for="heartbeat-rate" class="col-sm-4 control-label">心跳周期</label>
+      <div class="col-sm-8">
+
+        <div class="radio">
+          <label>
+            <input type="radio" name="heartbeat-rate" id="heartbeat-rate1" value="option1" checked>
+            每周一次
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="heartbeat-rate" id="heartbeat-rate2" value="option2">
+            每月一次
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="heartbeat-rate" id="heartbeat-rate3" value="option3">
+            半年一次
+          </label>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="form-group">
+      <label for="inputEmail3" class="col-sm-4 control-label">心跳过期</label>
+      <div class="col-sm-8">
+
+        <div class="radio">
+          <label>
+            <input type="radio" name="heartbeat-delay" id="heartbeat-delay1" value="option1" checked>
+            失联一周
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="heartbeat-delay" id="heartbeat-delay2" value="option2">
+            失联一个月
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="heartbeat-delay" id="heartbeat-delay3" value="option3">
+            失联半年
+          </label>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <div class="col-sm-8 col-sm-offset-4">
+        <button type="submit" class="btn btn-default">保存</button>
+      </div>
+    </div>
+  </form>
+  </div>
+
+<div class="contacts-list col-md-4">
+</div>
+
+<div class="contacts-help col-md-4">
+  <div class="tip">
+    <h6>Tip:</h6>
+    <p>这是关于心跳设置的提示信息！</p>
+  </div>
+</div>
+</div>
+
+
+<!-- footer -->
+<footer class="footer">
+    <div class="container">
+    <hr>
+        <p>Copyright © whenmgone 2015</p>
+    </div>
+</footer>
+
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.js"></script>
+
+{% endblock %}

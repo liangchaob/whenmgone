@@ -1,0 +1,83 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}whenmgone{% endblock %}
+
+{% block head %}
+{{ super() }}
+<!-- ico -->
+<link rel="shortcut icon" href="{{ url_for('static',filename = 'ghost_ico.ico') }}" type="image/x-icon">
+<!-- cdn css -->
+<link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
+<!-- self css -->
+<link rel="stylesheet" href="{{ url_for('static', filename = 'register.css') }}">
+
+{% endblock %}
+
+{% block content %}
+<!-- navbar -->
+<nav class="navbar container">
+    <h1>whenmgone</h1>
+</nav>
+
+<!-- register -->
+<div class="container register">
+
+  <form class="form-horizontal">
+    <h3>注册</h3>
+    <br>
+    <div class="form-group">
+      <label for="inputEmail3" class="col-sm-1 control-label">邮箱</label>
+      <div class="col-sm-4">
+        <input type="email" class="form-control" id="inputEmail3" placeholder="常用邮箱">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword3" class="col-sm-1 control-label">密码</label>
+      <div class="col-sm-4">
+        <input type="password" class="form-control" id="inputPassword3" placeholder="密码">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputPassword3" class="col-sm-1 control-label">重复密码</label>
+      <div class="col-sm-4">
+        <input type="password" class="form-control" id="inputPassword3" placeholder="重复密码">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputEmail3" class="col-sm-1 control-label">姓名</label>
+      <div class="col-sm-4">
+        <input type="email" class="form-control" id="inputEmail3" placeholder="请填写真实姓名">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputEmail3" class="col-sm-1 control-label">手机号</label>
+      <div class="col-sm-4">
+        <input type="email" class="form-control" id="inputEmail3" placeholder="请填写真实手机号码">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-1 col-sm-10">
+        <button type="submit" class="btn btn-default">注册</button>
+      </div>
+    </div>
+  </form>
+
+
+</div>
+
+
+<!-- footer -->
+<footer class="footer">
+    <div class="container">
+    <hr>
+        <p>Copyright © whenmgone 2015</p>
+    </div>
+</footer>
+
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.js"></script>
+
+{% endblock %}

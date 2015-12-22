@@ -1,0 +1,54 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}whenmgone{% endblock %}
+
+{% block head %}
+{{ super() }}
+<!-- ico -->
+<link rel="shortcut icon" href="{{ url_for('static',filename = 'ghost_ico.ico') }}" type="image/x-icon">
+<!-- cdn css -->
+<link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
+<!-- self css -->
+<link rel="stylesheet" href="{{ url_for('static', filename = 'noteshow.css') }}">
+
+{% endblock %}
+{% block content %}
+<!-- navbar -->
+<nav class="navbar container"></nav>
+
+<!-- 遗书正文 -->
+<div class="container main-note">
+    <div class="col-xs-10  col-xs-offset-1">
+        <h1>张向阳的遗嘱</h1>
+        <br>
+        <p>
+            爸妈，别太难过，这几年在外面漂回家回的可能太少了，没能照顾到您们，您别介意。 <br>我在北京过的挺好的，公司同事对我都不错，如果我挂了那也肯定不是过劳死，妈您可千万别跟公司起误会。 我这个留言主要是想告诉您二老，我有好些钱都投在了一些网络账户上，您拿着我的手机可千万别扔，登录里面好几个App里面都把钱取出来吧，我下面一一告诉您怎么取：<br>
+            <ol>
+                <li>支付宝密码是*。。。</li>
+                <li>还有工商银行那个。。。。</li>
+                <li>另外我有个京东账户，这个您把我弟找来，让它告诉您怎么操作，到时候密码您输入**</li>
+                <li>还有个宜信，那个只能到了时候才能取，这个您看*</li>
+                <li>然后有个华泰的账号，这个您找舅舅，让它告诉您怎么把这个兑出来，您千万告诉他里面有个**建议长期持，那个特别好。。。</li>
+            </ol>
+        </p>       
+    </div>
+
+</div>
+
+
+
+
+<!-- footer -->
+<footer class="footer">
+    <div class="container">
+      <div class="col-xs-4 col-xs-offset-8 powerby">
+        Powered by whenmgone.com
+      </div>
+    <hr>
+        <p>Copyright © whenmgone 2015</p>
+    </div>
+</footer>
+
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.js"></script>
+
+{% endblock %}

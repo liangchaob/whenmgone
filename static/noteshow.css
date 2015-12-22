@@ -1,0 +1,19 @@
+body{
+    background-color: #333;
+}
+
+.main-note h1{
+    color: #fff;
+    text-align: center;
+}
+
+.main-note p,li{
+    color: #fff;
+
+}
+
+
+footer{
+    text-align: center;
+    color: #888;
+}

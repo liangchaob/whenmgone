@@ -191,8 +191,8 @@ def index():
         collection.insert_one(demo_data)
         # 重定向回来
         return redirect('/')
-    # 渲染index.html
-    return render_template('index.html', form=form)
+    # 渲染demo_index.html
+    return render_template('demo_index.html', form=form)
 
 # 用户遗嘱
 @app.route('/profile/<name>')
@@ -202,8 +202,76 @@ def note_content(name):
     form = DemoForm()
     # 找到名字对应的内容
     content = collection.find_one({'userID':name}).get('note01.content')
-    # 渲染index.html
+    # 渲染demo_index.html
     return render_template('content.html', note = content)
+
+
+
+
+# 用户遗嘱首页
+@app.route('/indextest')
+# 定义响应函数
+def indextest():
+    # 渲染index.html
+    return render_template('index.html')
+
+# 用户遗嘱注册
+@app.route('/register')
+# 定义响应函数
+def registertest():
+    # 渲染index.html
+    return render_template('register.html')
+
+
+
+# 联系人step
+@app.route('/contact')
+# 定义响应函数
+def contacttest():
+    # 渲染index.html
+    return render_template('contact.html')
+
+
+
+# 遗嘱step
+@app.route('/lastwill')
+# 定义响应函数
+def lastwilltest():
+    # 渲染index.html
+    return render_template('lastwill.html')
+
+
+# 心跳设置step
+@app.route('/heatbeat')
+# 定义响应函数
+def heatbeattest():
+    # 渲染index.html
+    return render_template('heatbeat.html')
+
+
+
+
+
+# 预览step
+@app.route('/preview')
+# 定义响应函数
+def previewtest():
+    # preview.html
+    return render_template('preview.html')
+
+
+# 最终展示step
+@app.route('/noteshow')
+# 定义响应函数
+def noteshowtest():
+    # 渲染noteshow.html
+    return render_template('noteshow.html')
+
+
+
+
+
+
 
 # 运行主函数
 if __name__ == '__main__':
