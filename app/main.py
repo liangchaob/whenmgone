@@ -59,13 +59,22 @@ app.config.setdefault('BOOTSTRAP_USE_CDN', False)
 # 设置跨站请求伪造保护
 app.config['SECRET_KEY'] = 'hard to guess string'
 
+# 本地环境
+# # 设置数据库地址
+# client = pymongo.MongoClient('172.16.191.163', 27017)
+# # 设置数据库名
+# db = client['demodb']
+# # 设置表名
+# collection = db['demotable']
 
+# daocloud环境
 # 设置数据库地址
-client = pymongo.MongoClient('172.16.191.163', 27017)
+client = pymongo.MongoClient('10.10.72.139', 27017)
 # 设置数据库名
-db = client['demodb']
+db = client['dlR8NJgeiK3TsOkj']
 # 设置表名
-collection = db['demotable']
+db.authenticate("udkIqOwPYlfMZAXn","psfuF7gNhBriTZHWl")
+collection = db['betatable']
 
 
 # # 创建demo表单类
