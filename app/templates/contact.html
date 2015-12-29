@@ -15,7 +15,19 @@
 {% block content %}
 <!-- navbar -->
 <nav class="navbar container">
-    <h1>whenmgone</h1>
+  <div class="col-md-4">
+    <h1>whenmgone</h1>    
+  </div>
+  <div class="col-md-2 col-md-offset-6">
+    <br>
+  
+    {% if current_user.is_authenticated() %}
+    <h5 class="login">{{ current_user.email }}</h5>
+    {% else %}
+      stranger
+    {% endif %}    
+  </div>
+
 </nav>
 
 <!-- register -->

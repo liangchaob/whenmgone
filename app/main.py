@@ -37,6 +37,7 @@ from werkzeug.security import generate_password_hash,check_password_hash
 
 
 
+
 # 创建一个Flask对象
 app = Flask(__name__)
 
@@ -214,10 +215,44 @@ class TimeCompute(object):
 
 
 
+# 关于用户的会话在线
+
+# 引入flask-login
+from flask.ext.login import LoginManager
+from flask.ext.login import UserMixin, current_user, login_required, login_user, logout_user
+
+login_manager = LoginManager()
+login_manager.setup_app(app)
 
 
 
-# 用户注册
+class User():
+    def __init__(self, email=None):
+        self.email = email
+
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return unicode(self.email)
+
+@login_manager.user_loader
+def load_user(email):
+    u = collection.find_one({'email_address':email})
+    if not u:
+        return None
+    return User(u['email_address'])
+
+
+
+
+# 用户登录
 class UserLogin(Form):
     """用户登录表单"""
     # 邮箱
@@ -236,9 +271,14 @@ def logintest():
     # 如果接收到post提交
     if request.method == 'POST':
         # 拿用户名找密码
+        # u = collection.find_one({'email_address':form.email_address.data})
         password_hash = collection.find_one({'email_address':form.email_address.data}).get('password')
         # 验证登录
         if check_password_hash(password_hash,form.password.data) == True:
+            # 将得到的用户名加入使用login实例化
+            user_obj = load_user(form.email_address.data)
+            # 使用login函数载入用户
+            login_user(user_obj)
             # 带着用户名参数重定向到指定页面
             return redirect('/contact')
         else:
@@ -298,6 +338,8 @@ def registertest():
 
 # 联系人step
 @app.route('/contact')
+# 需要login登录修饰
+@login_required
 # 定义响应函数
 def contacttest():
     # 渲染index.html
@@ -307,6 +349,8 @@ def contacttest():
 
 # 遗嘱step
 @app.route('/lastwill')
+# 需要login登录修饰
+@login_required
 # 定义响应函数
 def lastwilltest():
     # 渲染index.html
@@ -315,6 +359,8 @@ def lastwilltest():
 
 # 心跳设置step
 @app.route('/heatbeat')
+# 需要login登录修饰
+@login_required
 # 定义响应函数
 def heatbeattest():
     # 渲染index.html
@@ -326,6 +372,8 @@ def heatbeattest():
 
 # 预览step
 @app.route('/preview')
+# 需要login登录修饰
+@login_required
 # 定义响应函数
 def previewtest():
     # preview.html
