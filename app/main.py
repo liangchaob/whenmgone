@@ -44,6 +44,14 @@ app = Flask(__name__)
 # 使用bootstrap初始化
 bootstrap = Bootstrap(app)
 
+
+# app.config.update(
+#     BOOTSTRAP_USE_CDN = False
+# )
+app.config.setdefault('BOOTSTRAP_USE_CDN', False)
+
+
+
 # 设置跨站请求伪造保护
 app.config['SECRET_KEY'] = 'hard to guess string'
 
@@ -271,20 +279,27 @@ def logintest():
     # 如果接收到post提交
     if request.method == 'POST':
         # 拿用户名找密码
-        # u = collection.find_one({'email_address':form.email_address.data})
-        password_hash = collection.find_one({'email_address':form.email_address.data}).get('password')
-        # 验证登录
-        if check_password_hash(password_hash,form.password.data) == True:
-            # 将得到的用户名加入使用login实例化
-            user_obj = load_user(form.email_address.data)
-            # 使用login函数载入用户
-            login_user(user_obj)
-            # 带着用户名参数重定向到指定页面
-            return redirect('/contact')
-        else:
-            message = '用户名或密码错误！'
-            print message
+        # testname = collection.find_one({'email_address':form.email_address.data})
+        # testname = collection.find_one({'email_address':'haha@123.com'})
+        user_obj = collection.find_one({'email_address':form.email_address.data})
+        if user_obj == None:
+            message = '账户不存在！'
             return render_template('login.html', form=form, message=message)
+            print yes
+        else:
+            password_hash = user_obj.get('password')
+            # 验证登录
+            if check_password_hash(password_hash,form.password.data) == True:
+                # 将得到的用户名加入使用login实例化
+                login_obj = load_user(form.email_address.data)
+                # 使用login函数载入用户
+                login_user(login_obj)
+                # 带着用户名参数重定向到指定页面
+                return redirect('/contact')
+            else:
+                message = '用户名或密码错误！'
+                print message
+                return render_template('login.html', form=form, message=message)
     # 渲染demo_index.html
     return render_template('login.html', form=form)
 
@@ -336,14 +351,53 @@ def registertest():
 
 
 
+
+# 用户注册
+class UserContact(Form):
+    """用户注册表单"""
+    # 邮箱
+    contact01Mail = TextField('常用邮箱', validators = [Email()])
+    # 用户名输入框
+    contact01Name = TextField('姓名', validators = [DataRequired()])
+    # 用户手机输入框
+    contact01Phone = TextField('手机', validators = [DataRequired()])
+    # 提交
+    submit = SubmitField('提交')
+
+
 # 联系人step
-@app.route('/contact')
+@app.route('/contact', methods=('GET', 'POST'))
 # 需要login登录修饰
 @login_required
 # 定义响应函数
 def contacttest():
-    # 渲染index.html
-    return render_template('contact.html')
+    # 实例化表单类
+    form = UserContact()
+    # 如果接收到post提交
+    if request.method == 'POST':
+        # 更新添加联系人数据
+        collection.update({'email_address':current_user.email },
+            {
+                "$set":{
+                    'contact01':{
+                            'mail':form.contact01Mail.data,
+                            'phone':form.contact01Phone.data,
+                            'name':form.contact01Name.data
+                    },
+                }
+            }
+        )
+        # 重定向回来
+        return redirect('/contact')
+    # 渲染demo_index.html
+    return render_template('contact.html', form=form)
+
+
+
+
+
+
+
 
 
 
