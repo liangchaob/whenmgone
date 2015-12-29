@@ -28,9 +28,12 @@ from flask.ext.bootstrap import Bootstrap
 # 引入flask-WTF模块
 from flask_wtf import Form
 # 引入文本字段、密码字段、多行文本字段、下拉列表字段
-from wtforms import TextField,PasswordField,TextAreaField,SelectField
+from wtforms import TextField,PasswordField,TextAreaField,SelectField,SubmitField
 # 引入验证字段中的require、email
-from wtforms.validators import DataRequired,Email,Length
+from wtforms.validators import DataRequired,Email,Length,EqualTo
+
+# 引入密码哈希加密
+from werkzeug.security import generate_password_hash,check_password_hash
 
 # 创建一个Flask对象
 app = Flask(__name__)
@@ -247,8 +250,34 @@ class UserRegister(Form):
 @app.route('/register')
 # 定义响应函数
 def registertest():
-    # 渲染index.html
-    return render_template('register.html')
+# 实例化表单类
+    form = UserRegister()
+    # 如果接收到post提交
+    if request.method == 'POST':
+        email_address = request.form['email_address']
+        password = request.form['password']
+        name = request.form['name']
+        phone = request.form['phone']
+
+        # 密码加密
+        password = generate_password_hash(password)
+
+        # 设置插入数据库的内容
+        db_update = {
+        'email_address':email_address,
+        'password':password,
+        'name':name, 
+        'phone':phone, 
+        'deathConfirm':False,
+        'notesendConfirm':False,
+        'serviceState':True
+        }
+        # 插入数据
+        collection.insert_one(db_update)
+        # 重定向回来
+        return redirect('/')
+    # 渲染demo_index.html
+    return render_template('register.html', form=form)
 
 
 
@@ -284,6 +313,28 @@ def heatbeattest():
 @app.route('/preview')
 # 定义响应函数
 def previewtest():
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     # preview.html
     return render_template('preview.html')
 

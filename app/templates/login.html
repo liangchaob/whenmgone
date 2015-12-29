@@ -8,7 +8,7 @@
 <!-- cdn css -->
 <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
 <!-- self css -->
-<link rel="stylesheet" href="{{ url_for('static', filename = 'index.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename = 'login.css') }}">
 
 {% endblock %}
 
@@ -31,14 +31,15 @@
       <!-- 登录栏 -->
       <div class="col-xs-12 col-md-3 col-md-offset-1">
         <div class="login">
-            <form>
+            <form action="/login" method="POST">
               <div class="form-group">
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                {{ form.email_address(class="form-control",id="inputEmail",placeholder="邮箱") }}
               </div>
               <div class="form-group">
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                {{ form.password(class="form-control",id="inputPassword",placeholder="密码") }}
               </div>
-              <button type="submit" class="btn btn-default">Submit</button>
+              {{ form.submit(class="btn btn-default") }}
+              {% if message %} {{ message }} {% endif %}
             </form>
         </div>
       </div>

@@ -1,0 +1,86 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}whenmgone{% endblock %}
+
+{% block head %}
+{{ super() }}
+<!-- ico -->
+<link rel="shortcut icon" href="{{ url_for('static',filename = 'ghost_ico.ico') }}" type="image/x-icon">
+<!-- cdn css -->
+<link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
+<!-- self css -->
+<link rel="stylesheet" href="{{ url_for('static', filename = 'register.css') }}">
+
+{% endblock %}
+
+{% block content %}
+<!-- navbar -->
+<nav class="navbar container">
+  <h1>whenmgone</h1>
+</nav>
+
+<!-- register -->
+<div class="container register main_bd">
+  <form action="/register" method="POST" class="form-horizontal">
+    <h3>注册</h3>
+    <br>
+    <div class="col-sm-8">
+      {{ form.hidden_tag() }}
+      <div class="form-group">
+        {{ form.email_address.label(class="col-sm-2 control-label",for="inputEmail") }} 
+        <div class="col-sm-4">
+        {{ form.email_address(class="form-control",id="inputEmail",placeholder="常用邮箱") }}
+        </div>
+      </div>
+      <div class="form-group">
+        {{ form.password.label(class="col-sm-2 control-label",for="inputPassword") }} 
+        <div class="col-sm-4">
+        {{ form.password(class="form-control",id="inputPassword",placeholder="密码") }}
+        </div>            
+      </div>
+      <div class="form-group">
+        {{ form.password_repeat.label(class="col-sm-2 control-label",for="inputPasswordrepeat") }}
+        <div class="col-sm-4">
+        {{ form.password_repeat(class="form-control",id="inputPasswordrepeat",placeholder="重复密码") }}
+        </div>    
+      </div>
+      <div class="form-group">
+        {{ form.name.label(class="col-sm-2 control-label",for="inputName") }}
+        <div class="col-sm-4">
+        {{ form.name(class="form-control",id="inputName",placeholder="真实姓名") }}
+        </div>  
+      </div>
+      <div class="form-group">
+        {{ form.phone.label(class="col-sm-2 control-label") }}
+        <div class="col-sm-4">
+        {{ form.phone(class="form-control",id="inputPhone",placeholder="手机") }}
+        </div> 
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-1 col-sm-10">
+        {{ form.submit(class="btn btn-default") }}
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="register-help col-sm-4">
+    <div class="tip">
+      <h6>Tips:</h6>
+      <p>请务必填写常用邮箱，该邮箱将用于和您时刻保持联动关系。</p>
+    </div>
+    
+  </div>
+</div>
+
+
+<!-- footer -->
+<footer class="footer">
+  <div class="container">
+  <hr>
+    <p>Copyright © whenmgone 2015</p>
+  </div>
+</footer>
+
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.js"></script>
+
+{% endblock %}

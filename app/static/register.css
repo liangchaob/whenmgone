@@ -8,10 +8,16 @@ body{
 
 
 .register{
-    background-color: #eee;
+    background-color: #fff;
 
 }
 
+
+.tip{
+    padding: 15px;
+    border-left:1px solid #eee;
+    height: 200px;
+}
 
 footer{
     text-align: center;
