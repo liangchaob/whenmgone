@@ -17,7 +17,7 @@
 <!-- navbar -->
 <nav class="navbar container">
   <div class="col-md-4">
-    <h1>whenmgone</h1>    
+    <a href="/login"><h1>whenmgone</h1></a>    
   </div>
   <div class="col-md-2 col-md-offset-6">
     <br>
@@ -58,10 +58,23 @@
 <!-- 心跳设置页 -->
   <div class="contacts-add col-md-4">
 
-  <h2>遗嘱</h2>
-  <p>遗嘱内容</p>
-
-
+  <h2>遗嘱预览</h2>
+  <a class="btn btn-default" href="/noteshow"  target="_blank" role="button">遗嘱页面</a>
+  <br>
+  <h2>邮箱测试</h2>
+  <form action="/preview" method="post">
+    <div>
+    <button class="btn btn-default" type="submit">测试邮件</button>
+    </div>
+  </form>
+    <div class="col-sm-12">
+    <br>
+    {% if message %} 
+    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+    {{ message }}
+    {% endif %}
+    <!-- <button type="submit" class="btn btn-default">保存</button> -->
+  </div>
   </div>
 
 <div class="contacts-list col-md-4">
@@ -70,9 +83,10 @@
 <div class="contacts-help col-md-4">
   <div class="tip">
     <h6>Tip:</h6>
-    <p>这是关于预览的提示信息！</p>
+    <p>您可以预览遗书的最终呈现效果。</p>
+    <p>您可以通过邮件测试邮箱是否能正常工作。</p>
       <p>
-        <button type="button" class="btn btn-default">邮箱测试</button>
+        <!-- <button type="button" class="btn btn-default">邮箱测试</button> -->
         <!-- <button type="button" class="btn btn-default">（默认尺寸）Default button</button> -->
       </p>
   </div>

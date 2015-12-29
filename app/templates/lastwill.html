@@ -18,7 +18,7 @@
 <!-- navbar -->
 <nav class="navbar container">
   <div class="col-md-4">
-    <h1>whenmgone</h1>    
+    <a href="/login"><h1>whenmgone</h1></a>     
   </div>
   <div class="col-md-2 col-md-offset-6">
     <br>
@@ -59,14 +59,19 @@
 
 <!-- 遗嘱页 -->
   <div class="contacts-add col-md-8">
-  <form>
+  <form action="/lastwill" method="POST">
     <h3>遗嘱</h3>
     <br>
 
     <div class="form-group">
       <!-- <label for="inputEmail3" class="col-sm-4 control-label">姓名</label> -->
       <!-- <div class="col-sm-8"> -->
-        <textarea class="form-control note"></textarea>
+        <!-- <textarea class="form-control note"></textarea> -->
+        {% if decode_value %}
+          {{ form.content01(class="form-control note",value=decode_value) }}
+        {% else %}
+          {{ form.content01(class="form-control note",value="") }}
+        {% endif %}
       <!-- </div> -->
     </div>
 
@@ -74,7 +79,15 @@
 
     <div class="form-group">
       <div class="col-sm-8">
-        <button type="submit" class="btn btn-default">保存</button>
+        <!-- <button type="submit" class="btn btn-default">保存</button> -->
+        {{ form.submit(class="btn btn-default") }}
+      </div>
+
+      <div class="col-md-offset-2 col-sm-2">
+        {% if message %} 
+        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+        {{ message }}
+        {% endif %}
       </div>
     </div>
   </form>
@@ -86,7 +99,8 @@
 <div class="contacts-help col-md-4">
   <div class="tip">
     <h6>Tip:</h6>
-    <p>这是关于遗嘱的提示信息！</p>
+    <p>请写下您最后的留言，当您离开这个世界的时候，我们将为您转达您的信息！</p>
+    <p>当前为测试版本，加密级别较低，请勿留下重要信息，避免泄露风险！</p>
   </div>
 </div>
 </div>
@@ -114,8 +128,38 @@
 <script type="text/javascript">
   var editor = new Simditor({
     textarea: $('.note')
+    // setValue 'hello world'
     //optional options
+    // _this.editor.setValue('hello world');
   });
+  editor.focus();
+  // editor.setValue 'hello world';
+  // var content = html_entity_decode(str({{ decode_value }}));
+  // var content_value = {{ decode_value }}
+
+  // editor.focus();
+  // var content = $('.note').attr('value');
+  $(document).ready(function(){
+    $("form").submit( function () {
+      $('.note').attr('value',editor.getValue())
+      // editor.setValue(content);
+    } );
+    // editor.setValue 'hello world';
+    if ($('textarea').text() != "") {
+      $('.note').attr('value',$('textarea').text())
+    };
+    
+    content = $('.note').attr("value");
+    editor.setValue(content);
+  });
+  // $(window).unload( function () { 
+  //   content = $('.note').attr("value");
+  //   editor.setValue(content);
+  // });
+
+
+
+
 </script>
 
 

@@ -93,21 +93,21 @@ deathcheck = collection.find({"heatbeatFinal":{"$lte":timenow}},{'userID':1,'nam
 
 
 # 检查心跳并发送主循环
-for i in livecheck:
-    userID = i.get('userID')
-    name = i.get('name')
-    mailaddr = i.get('heatbeatMail')
-    print userID,name,mailaddr
-    livecheck_mail(userID,name,mailaddr)
+# for i in livecheck:
+#     userID = i.get('userID')
+#     name = i.get('name')
+#     mailaddr = i.get('heatbeatMail')
+#     print userID,name,mailaddr
+#     livecheck_mail(userID,name,mailaddr)
 
 # 检查无回应并发送主循环
-for i in deathcheck:
-    userID = i.get('userID')
-    name = i.get('name')
-    mailaddr = i.get('heatbeatMail')
-    contact01 = i.get('contact01').get('name')
-    print userID,name,mailaddr,contact01
-    notesend_mail(userID,name,contact01,mailaddr)
+# for i in deathcheck:
+#     userID = i.get('userID')
+#     name = i.get('name')
+#     mailaddr = i.get('heatbeatMail')
+#     contact01 = i.get('contact01').get('name')
+#     print userID,name,mailaddr,contact01
+#     notesend_mail(userID,name,contact01,mailaddr)
 
 
 

@@ -17,7 +17,7 @@
 <!-- navbar -->
 <nav class="navbar container">
   <div class="col-md-4">
-    <h1>whenmgone</h1>    
+    <a href="/login"><h1>whenmgone</h1></a>   
   </div>
   <div class="col-md-2 col-md-offset-6">
     <br>
@@ -53,90 +53,48 @@
     </ul>
   </div>
 
-
 <!-- 心跳设置页 -->
   <div class="contacts-add col-md-4">
-  <form class="form-horizontal">
+  <form class="form-horizontal" action="/heatbeat" method="POST">
     <h3>心跳设置</h3>
     <br>
 
     <div class="form-group">
-      <label for="heatbeat-function" class="col-sm-4 control-label">心跳方式</label>
-      <div class="col-sm-8">
-
-        <div class="radio">
-          <label>
-            <input type="radio" name="heartbeat-function" id="heartbeat-function1" value="option1" checked>
-            邮箱心跳
-          </label>
-        </div>
-        <div class="radio">
-          <label>
-            <input type="radio" name="heartbeat-function" id="heartbeat-function2" value="option2">
-            短信心跳
-          </label>
-        </div>
-
+      {{ form.heartbeat_function.label(for="heatbeat-function",class="col-sm-4 control-label") }}
+      <!-- <label for="heatbeat-function" class="col-sm-4 control-label">心跳方式</label> -->
+      <div class="col-sm-8 radio">
+        {{ form.heartbeat_function() }}
       </div>
     </div>
 
-
     <div class="form-group">
-      <label for="heartbeat-rate" class="col-sm-4 control-label">心跳周期</label>
-      <div class="col-sm-8">
-
-        <div class="radio">
-          <label>
-            <input type="radio" name="heartbeat-rate" id="heartbeat-rate1" value="option1" checked>
-            每周一次
-          </label>
-        </div>
-        <div class="radio">
-          <label>
-            <input type="radio" name="heartbeat-rate" id="heartbeat-rate2" value="option2">
-            每月一次
-          </label>
-        </div>
-        <div class="radio">
-          <label>
-            <input type="radio" name="heartbeat-rate" id="heartbeat-rate3" value="option3">
-            半年一次
-          </label>
-        </div>
+      {{ form.heartbeat_rate.label(for="heatbeat-rate",class="col-sm-4 control-label") }}
+      <!-- <label for="heatbeat-function" class="col-sm-4 control-label">心跳方式</label> -->
+      <div class="col-sm-8 radio">
+        {{ form.heartbeat_rate() }}
       </div>
     </div>
 
-
-
     <div class="form-group">
-      <label for="inputEmail3" class="col-sm-4 control-label">心跳过期</label>
-      <div class="col-sm-8">
-
-        <div class="radio">
-          <label>
-            <input type="radio" name="heartbeat-delay" id="heartbeat-delay1" value="option1" checked>
-            失联一周
-          </label>
-        </div>
-        <div class="radio">
-          <label>
-            <input type="radio" name="heartbeat-delay" id="heartbeat-delay2" value="option2">
-            失联一个月
-          </label>
-        </div>
-        <div class="radio">
-          <label>
-            <input type="radio" name="heartbeat-delay" id="heartbeat-delay3" value="option3">
-            失联半年
-          </label>
-        </div>
+      {{ form.heartbeat_delay.label(for="heatbeat-delay",class="col-sm-4 control-label") }}
+      <!-- <label for="heatbeat-function" class="col-sm-4 control-label">心跳方式</label> -->
+      <div class="col-sm-8 radio">
+        {{ form.heartbeat_delay() }}
       </div>
     </div>
 
-
     <div class="form-group">
-      <div class="col-sm-8 col-sm-offset-4">
-        <button type="submit" class="btn btn-default">保存</button>
+      <div class="col-sm-2 col-sm-offset-4">
+        {{ form.submit(class="btn btn-default") }}
+        <!-- <button type="submit" class="btn btn-default">保存</button> -->
+      </div>
+      <div class="col-sm-4">
+        
+        {% if message %} 
+        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+        {{ message }}
+        {% endif %}
+        <!-- <button type="submit" class="btn btn-default">保存</button> -->
       </div>
     </div>
   </form>
@@ -148,7 +106,9 @@
 <div class="contacts-help col-md-4">
   <div class="tip">
     <h6>Tip:</h6>
-    <p>这是关于心跳设置的提示信息！</p>
+    <p>您可以选择通过邮件或者短信的方式和我们保持心跳。</p>
+    <p>您可以选择一个合适的时间间隔，我们将按照该频率和您保持心跳连接，如果没有回复我们会每隔一天和您同步一次。</p>
+    <p>当您长期失联后，超过心跳过期时间，我们将为您转发遗书邮件！</p>
   </div>
 </div>
 </div>
@@ -164,5 +124,24 @@
 
 <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
 <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    var heartbeat_function = '{{ heartbeat_function|safe }}';
+    var heartbeat_rate = {{ heartbeat_rate }};
+    var heartbeat_delay = {{ heartbeat_delay }};
+    if (heartbeat_function=='mail') { $('#heartbeat_function-0').attr("checked","True")}
+      else{ $('#heartbeat_function-1').attr("checked","True")};
+    if (heartbeat_rate==7) { $('#heartbeat_rate-0').attr("checked","True")}
+      else if (heartbeat_rate==30) { $('#heartbeat_rate-1').attr("checked","True")}
+      else{ $('#heartbeat_rate-2').attr("checked","True")};
+    if (heartbeat_delay==7) { $('#heartbeat_delay-0').attr("checked","True")}
+      else if (heartbeat_delay==30) { $('#heartbeat_delay-1').attr("checked","True")}
+      else{ $('#heartbeat_delay-2').attr("checked","True")}
+  });
+</script>
+
+
+
 
 {% endblock %}

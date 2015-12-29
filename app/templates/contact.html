@@ -16,7 +16,7 @@
 <!-- navbar -->
 <nav class="navbar container">
   <div class="col-md-4">
-    <h1>whenmgone</h1>    
+    <a href="/login"><h1>whenmgone</h1></a>     
   </div>
   <div class="col-md-2 col-md-offset-6">
     <br>
@@ -90,6 +90,20 @@
   </div>
 
 <div class="contacts-list col-md-4">
+  <br>
+  <br>
+  <br>
+  <br>
+  {% if contact %}
+  <div class="contact-list panel panel-default">
+    <div class="panel-heading"><span class="glyphicon glyphicon-user" aria-hidden="true">  <strong>{{ contact.get('name') }}</strong></span></div>
+    <div class="panel-body">
+      <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>   <strong>{{ contact.get('phone') }}</strong>
+      <br>
+      <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>   <strong>{{ contact.get('mail') }}</strong>
+    </div>
+  </div>
+  {% endif %}
 </div>
 
 <div class="contacts-help col-md-4">

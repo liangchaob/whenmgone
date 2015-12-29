@@ -11,9 +11,13 @@ import time
 # 引入datatime模块
 from datetime import datetime,timedelta
 
+# 导入mail
+from dailymail import livecheck_mail,notesend_mail
+
 # 引入sys模块，并将默认字符格式转为utf-8
 import sys
 sys.path.append("./")
+# sys.path.append("..")
 reload(sys)
 sys.setdefaultencoding( "utf-8" )
 
@@ -28,7 +32,7 @@ from flask.ext.bootstrap import Bootstrap
 # 引入flask-WTF模块
 from flask_wtf import Form
 # 引入文本字段、密码字段、多行文本字段、下拉列表字段
-from wtforms import TextField,PasswordField,TextAreaField,SelectField,SubmitField
+from wtforms import TextField,PasswordField,TextAreaField,SelectField,SubmitField,RadioField
 # 引入验证字段中的require、email
 from wtforms.validators import DataRequired,Email,Length,EqualTo
 
@@ -258,6 +262,11 @@ def load_user(email):
     return User(u['email_address'])
 
 
+# 用户遗嘱首页
+@app.route('/',)
+# 定义响应函数
+def login():
+    return redirect('/login')
 
 
 # 用户登录
@@ -332,12 +341,25 @@ def registertest():
     if request.method == 'POST':
         # 密码加密
         password = generate_password_hash(form.password.data)
+
+        # 设置默认时间参数
+        heatbeatRate = 30
+        heatbeatDelay = 30
+        # 实例化时间类
+        T = TimeCompute(heatbeatRate,heatbeatDelay)
+
         # 设置插入数据库的内容
         db_update = {
         'email_address':form.email_address.data,
         'password':password,
         'name':form.name.data, 
         'phone':form.phone.data, 
+        'heartbeatFunction':'mail',
+        'heatbeatRate':heatbeatRate,
+        'heatbeatDelay':heatbeatDelay,
+        'heatbeatUpdate':T.heatbeatUpdate(),
+        'heatbeatSync':T.heatbeatSync(),
+        'heatbeatFinal':T.heatbeatFinal(),
         'deathConfirm':False,
         'notesendConfirm':False,
         'serviceState':True
@@ -352,9 +374,9 @@ def registertest():
 
 
 
-# 用户注册
+# 联系人表单
 class UserContact(Form):
-    """用户注册表单"""
+    """联系人表单"""
     # 邮箱
     contact01Mail = TextField('常用邮箱', validators = [Email()])
     # 用户名输入框
@@ -373,6 +395,19 @@ class UserContact(Form):
 def contacttest():
     # 实例化表单类
     form = UserContact()
+    # 获得用户对象
+    user_obj = collection.find_one({'email_address':current_user.email})
+    # 获得联系人信息
+    contact = user_obj.get('contact01')
+    # if contact not None:
+        # print contact.get('name')
+        # print contact.get('phone')
+        # print contact.get('mail')
+        # return render_template('contact.html', form=form, contact=contact)
+
+    # else:
+        # pass
+    
     # 如果接收到post提交
     if request.method == 'POST':
         # 更新添加联系人数据
@@ -390,56 +425,226 @@ def contacttest():
         # 重定向回来
         return redirect('/contact')
     # 渲染demo_index.html
-    return render_template('contact.html', form=form)
+    return render_template('contact.html', form=form, contact=contact)
 
 
 
 
+# 导入aes加密
+# from Crypto.Cipher import AES
+# from binascii import b2a_hex, a2b_hex
+import base64
+
+# 加密函数
+# class prpcrypt():
+#     def __init__(self, key):
+#         self.key = key
+#         self.mode = AES.MODE_CBC
+     
+#     #加密函数，如果text不是16的倍数【加密文本text必须为16的倍数！】，那就补足为16的倍数
+#     def encrypt(self, text):
+#         cryptor = AES.new(self.key, self.mode, self.key)
+#         #这里密钥key 长度必须为16（AES-128）、24（AES-192）、或32（AES-256）Bytes 长度.目前AES-128足够用
+#         length = 16
+#         count = len(text)
+#         add = length - (count % length)
+#         text = text + ('\0' * add)
+#         self.ciphertext = cryptor.encrypt(text)
+#         #因为AES加密时候得到的字符串不一定是ascii字符集的，输出到终端或者保存时候可能存在问题
+#         #所以这里统一把加密后的字符串转化为16进制字符串
+#         return b2a_hex(self.ciphertext)
+     
+#     #解密后，去掉补足的空格用strip() 去掉
+#     def decrypt(self, text):
+#         cryptor = AES.new(self.key, self.mode, self.key)
+#         plain_text = cryptor.decrypt(a2b_hex(text))
+#         return plain_text.rstrip('\0')
 
 
 
-
+# 遗嘱表单
+class UserLastwill(Form):
+    """遗嘱表单"""
+    # 遗嘱内容
+    content01 = TextAreaField('遗嘱', validators = [DataRequired()])
+    # 提交
+    submit = SubmitField('保存')
 
 
 # 遗嘱step
-@app.route('/lastwill')
+@app.route('/lastwill', methods=('GET', 'POST'))
 # 需要login登录修饰
 @login_required
 # 定义响应函数
 def lastwilltest():
-    # 渲染index.html
-    return render_template('lastwill.html')
+    # 实例化表单类
+    form = UserLastwill()
+    # 获得用户对象
+    user_obj = collection.find_one({'email_address':current_user.email})
+    if user_obj.get('lastwill01') != None:
+        content_value = user_obj.get('lastwill01').get('content')
+
+    # ciphertext = base64.encodestring(content_value)
+
+    #初始化密钥
+    # obj = prpcrypt('keyskeyskeyskeys')
+
+        # 解密
+        decode_value = base64.decodestring(content_value)
+    else:
+        decode_value = None
+    # 获得联系人信息
+    # contact = user_obj.get('contact01')
+    # if contact not None:
+        # print contact.get('name')
+        # print contact.get('phone')
+        # print contact.get('mail')
+        # return render_template('contact.html', form=form, contact=contact)
+        
+    # else:
+        # pass
+    # message = None
+    # 如果接收到post提交
+    if request.method == 'POST':
+        # 获取表单输入
+        content = form.content01.data
+        print content
+        # 加密设置
+        # obj = prpcrypt('keyskeyskeyskeys')      #初始化密钥
+        # 加密
+        # ciphertext = obj.encrypt(content)
+        ciphertext = base64.encodestring(content)
+        print ciphertext
+        # 更新添加联系人数据
+        collection.update({'email_address':current_user.email },
+            {
+                "$set":{
+                    'lastwill01':{
+                            'content':ciphertext
+                    },
+                }
+            }
+        )
+        decode_value = base64.decodestring(ciphertext)
+        # decod = obj.decrypt(ciphertext)
+        # print decod
+        # 重定向回来
+        message = '内容已保存'
+        return render_template('lastwill.html', form=form,  decode_value=decode_value, message=message)
+        # return redirect('/lastwill')
+    # else:
+        # message = None
+    # 渲染demo_index.html
+    return render_template('lastwill.html', form=form, decode_value=decode_value)
+
+
+
+
+
+
+
+
+
+
+
+# 心跳设置
+class Userheartbeat(Form):
+    """心跳设置"""
+    # 心跳设置
+    heartbeat_function = RadioField('心跳方式',validators = [DataRequired()],
+        choices=[('mail', '邮箱心跳'), ('phone', '短信心跳')])
+    heartbeat_rate = RadioField('心跳周期',validators = [DataRequired()],
+        choices=[(7, '每周一次'), (30, '每月一次'), (180, '半年一次')])
+    heartbeat_delay = RadioField('心跳过期',validators = [DataRequired()],
+        choices=[(7, '失联一周'), (30, '失联一个月'), (180, '失联半年')])
+    # 提交
+    submit = SubmitField('保存')
 
 
 # 心跳设置step
-@app.route('/heatbeat')
+@app.route('/heatbeat', methods=('GET', 'POST'))
 # 需要login登录修饰
 @login_required
 # 定义响应函数
 def heatbeattest():
-    # 渲染index.html
-    return render_template('heatbeat.html')
+    pass
+    # # 实例化表单类
+    form = Userheartbeat()
+    # 获得用户对象
+    user_obj = collection.find_one({'email_address':current_user.email})
+    # 获取默认值
+    heartbeat_function = user_obj.get('heartbeatFunction')
+    heartbeat_rate = user_obj.get('heatbeatRate')
+    heartbeat_delay = user_obj.get('heatbeatDelay')
+
+    if request.method == 'POST':
+        # 设置默认时间参数
+        heartbeatFunction = form.heartbeat_function.data
+        heatbeatRate = form.heartbeat_rate.data
+        heatbeatDelay = form.heartbeat_delay.data
+        print heartbeatFunction,heatbeatRate,heatbeatDelay
+        # 实例化时间类
+        T = TimeCompute(int(heatbeatRate),int(heatbeatDelay))
+        # 入库
+        collection.update({'email_address':current_user.email },
+            {
+                "$set":{
+                    'heartbeatFunction':heartbeatFunction,
+                    'heatbeatRate':heatbeatRate,
+                    'heatbeatDelay':heatbeatDelay,
+                    'heatbeatUpdate':T.heatbeatUpdate(),
+                    'heatbeatSync':T.heatbeatSync(),
+                    'heatbeatFinal':T.heatbeatFinal()
+                }
+            }
+        )
+        message = "更新成功！"
+        return render_template('heatbeat.html', form=form, heartbeat_function=heartbeatFunction,
+         heartbeat_rate=heatbeatRate, heartbeat_delay=heatbeatDelay,message=message)
+    return render_template('heatbeat.html', form=form, heartbeat_function=heartbeat_function,
+     heartbeat_rate=heartbeat_rate, heartbeat_delay=heartbeat_delay)
+    # return render_template('heatbeat.html', form=form)
+
 
 
 
 
 
 # 预览step
-@app.route('/preview')
+@app.route('/preview', methods=('GET', 'POST'))
 # 需要login登录修饰
 @login_required
 # 定义响应函数
 def previewtest():
+    # 获得用户对象
+    user_obj = collection.find_one({'email_address':current_user.email})
+    if request.method == 'POST':
+        mailaddr = current_user.email
+        name = user_obj.get('name')
+        livecheck_mail(mailaddr,name,mailaddr)
+        message = "邮件已发送，请注意查收！"
+        return render_template('preview.html',message=message)
     # preview.html
     return render_template('preview.html')
 
 
 # 最终展示step
 @app.route('/noteshow')
+# 需要login登录修饰
+@login_required
 # 定义响应函数
 def noteshowtest():
+    # 获得用户对象
+    user_obj = collection.find_one({'email_address':current_user.email})
+    name = user_obj.get('name')
+    content_value = user_obj.get('lastwill01').get('content')
+
+    # 解密
+    decode_value = base64.decodestring(content_value)
+    print decode_value
+
     # 渲染noteshow.html
-    return render_template('noteshow.html')
+    return render_template('noteshow.html',name=name, content=decode_value)
 
 
 
