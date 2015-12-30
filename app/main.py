@@ -59,7 +59,7 @@ app.config.setdefault('BOOTSTRAP_USE_CDN', False)
 # 设置跨站请求伪造保护
 app.config['SECRET_KEY'] = 'hard to guess string'
 
-# 本地环境
+# # 本地环境
 # # 设置数据库地址
 # client = pymongo.MongoClient('172.16.191.163', 27017)
 # # 设置数据库名
